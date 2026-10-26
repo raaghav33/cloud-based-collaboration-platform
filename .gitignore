@@ -1,0 +1,20 @@
+
+# Secrets and environment settings
+.env
+.env.*
+
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local database and uploaded files
+*.db
+instance/
+uploads/
+
+# Local configuration
+.DS_Store

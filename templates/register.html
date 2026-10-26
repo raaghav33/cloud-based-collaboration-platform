@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block title %}Create account{% endblock %}
+{% block content %}<div class="auth-wrap"><div class="card border-0 shadow-sm auth-card"><div class="card-body p-4 p-md-5">
+<h1 class="h3 fw-bold mb-1">Create your account</h1><p class="text-secondary mb-4">Join a workspace to collaborate with your team.</p>
+<form method="post">{{ form.hidden_tag() }}
+{% for field in [form.name, form.email, form.password, form.confirm] %}<div class="mb-3">{{ field.label(class="form-label") }}{{ field(class="form-control") }}{% for e in field.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}</div>{% endfor %}
+<button class="btn btn-primary w-100">Create account</button></form>
+<p class="text-center mt-3 mb-0 small">Already registered? <a href="{{ url_for('login') }}">Sign in</a></p>
+</div></div></div>{% endblock %}

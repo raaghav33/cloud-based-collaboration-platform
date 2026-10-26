@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block title %}Sign in{% endblock %}
+{% block content %}
+<div class="auth-wrap"><div class="card border-0 shadow-sm auth-card"><div class="card-body p-4 p-md-5">
+<div class="text-center mb-4"><div class="brand-icon"><i class="bi bi-people-fill"></i></div><h1 class="h3 fw-bold mt-3">Welcome back</h1><p class="text-secondary">Sign in to your collaboration workspace.</p></div>
+<form method="post">{{ form.hidden_tag() }}
+<div class="mb-3">{{ form.email.label(class="form-label") }}{{ form.email(class="form-control", placeholder="you@example.com") }}{% for e in form.email.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}</div>
+<div class="mb-3">{{ form.password.label(class="form-label") }}{{ form.password(class="form-control", placeholder="Your password") }}{% for e in form.password.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}</div>
+<button class="btn btn-primary w-100">{{ form.submit.label.text }}</button>
+</form><p class="text-center mt-3 mb-0 small">New here? <a href="{{ url_for('register') }}">Create an account</a></p>
+</div></div></div>
+{% endblock %}
