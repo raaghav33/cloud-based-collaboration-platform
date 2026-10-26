@@ -198,8 +198,7 @@ This project demonstrates practical experience with Python web development, auth
 
 ## Author
 
-**Your Name**
-
+Raaghav
 Computer Science and Engineering
 
 ## License
