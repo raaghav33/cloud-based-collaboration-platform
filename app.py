@@ -1,6 +1,7 @@
 import os
 import uuid
 from datetime import datetime, date
+import re
 from pathlib import Path
 
 import boto3
@@ -20,7 +21,7 @@ from sqlalchemy import or_
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField, SelectField, DateField
-from wtforms.validators import DataRequired, Email, Length, EqualTo, Optional
+from wtforms.validators import DataRequired, Length, EqualTo, Optional, ValidationError
 
 load_dotenv()
 
@@ -107,14 +108,25 @@ class StoredFile(db.Model):
     uploader = db.relationship("User")
     workspace = db.relationship("Workspace", backref="files")
 
+def validate_email_format(form, field):
+    """Validate basic email syntax without the optional email_validator package."""
+    email = (field.data or "").strip()
+    if len(email) > 180 or not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email):
+        raise ValidationError("Enter a valid email address.")
+
+
 class LoginForm(FlaskForm):
-    email = StringField("Email", validators=[DataRequired(), Email()])
+    email = StringField("Email", validators=[DataRequired(), validate_email_format])
     password = PasswordField("Password", validators=[DataRequired()])
     submit = SubmitField("Sign in")
 
+
 class RegisterForm(FlaskForm):
     name = StringField("Full name", validators=[DataRequired(), Length(min=2, max=100)])
-    email = StringField("Email", validators=[DataRequired(), Email(), Length(max=180)])
+    email = StringField(
+        "Email",
+        validators=[DataRequired(), validate_email_format, Length(max=180)],
+    )
     password = PasswordField("Password", validators=[DataRequired(), Length(min=8)])
     confirm = PasswordField("Confirm password", validators=[DataRequired(), EqualTo("password")])
     submit = SubmitField("Create account")
